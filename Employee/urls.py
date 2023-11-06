@@ -1,14 +1,22 @@
 from . import views
 from django.urls import path
+from .views import EmployeeCreateView
+from .views import EmployeeGetView
+from .views import EmployeeGetIdView
+from .views import EmployeePostView
+from .views import EmployeeUpdateView
+from .views import EmployeePutView
+from .views import EmployeeDeleteView
+
 
 urlpatterns = [
-    path('employee/',views.employee_list),
-    path('employee/<str:pk>',views.employee_detail),
-    path('employeecreate/',views.employee_create),
-    path('getemployee/',views.employee_get),
-    path('getemployee/<str:EmployeeID>/',views.employee_get_id),
-    path('postemployee/',views.employee_post),
-    path('updateemployee/<str:EmployeeID>/', views.employee_update, name='employee-update'),
-    path('updateemployee/',views.employee_put),
-    path('deleteemployee/',views.employee_delete),
+    # Other URL patterns
+    path('employee/create/', EmployeeCreateView.as_view(), name='employee-create'),
+    path('employee/get/', EmployeeGetView.as_view(), name='employee-get'),
+    path('employee/get/<str:EmployeeID>/', EmployeeGetIdView.as_view(), name='employee-get-id'),
+    path('employee/post/', EmployeePostView.as_view(), name='employee-post'),
+    path('employee/update/<str:EmployeeID>/', EmployeeUpdateView.as_view(), name='employee-update'),
+    path('employee/put/', EmployeePutView.as_view(), name='employee-put'),
+    path('employee/delete/', EmployeeDeleteView.as_view(), name='employee-delete'),
+
 ]
