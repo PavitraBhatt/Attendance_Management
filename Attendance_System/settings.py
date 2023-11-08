@@ -138,6 +138,3 @@ REST_FRAMEWORK = {
         'rest_framework.parsers.MultiPartParser',
     ],
 }
-
-
-ALLOWED_HOSTS = ["https://cmsbackend.netlify.app/"]
