@@ -136,12 +136,12 @@ class HRGetView(APIView):
         json_data = JSONRenderer().render(serializer.data)
         return HttpResponse(json_data, content_type='application/json')
 # @csrf_exempt
-# def hr_get_HRID(request, HRHRID=None):  # Accept the 'HRHRID' parameter
+# def hr_get_HRID(request, HRID=None):  # Accept the 'HRID' parameter
     
 #     if request.method == 'GET':
-#         if HRHRID is not None:
+#         if HRID is not None:
 #             try:
-#                 hr_obj = HR.objects.get(HRHRID=HRHRID)  # Assuming 'HRHRID' is the field name
+#                 hr_obj = HR.objects.get(HRID=HRID)  # Assuming 'HRID' is the field name
 #                 serializer = HRSerializer(hr_obj)
 #                 json_data = JSONRenderer().render(serializer.data)
 #                 return HttpResponse(json_data, content_type='application/json')
@@ -155,16 +155,16 @@ class HRGetView(APIView):
 
 #@csrf_exempt
 #@parser_classes([JSONParser])
-class HRGetView(APIView):
+class HRGetIdView(APIView):
     def get(self, request, HRID=None):
         if HRID is not None:
             try:
-                hr_obj = HR.objects.get(HRID=HRID)  # Assuming 'HRHRID' is the field name
+                hr_obj = HR.objects.get(HRID=HRID)  # Assuming 'HRID' is the field name
                 serializer = HRSerializer(hr_obj)
                 json_data = JSONRenderer().render(serializer.data)
                 return HttpResponse(json_data, content_type='application/json')
             except HR.DoesNotExist:
-                return Response({"error": "HR object with this HRHRID does not exist"}, status=status.HTTP_404_NOT_FOUND)
+                return Response({"error": "HR object with this HRID does not exist"}, status=status.HTTP_404_NOT_FOUND)
 
         sites = HR.objects.all()
         serializer = HRSerializer(sites, many=True)
@@ -209,7 +209,7 @@ class HRPostView(APIView):
 #         json_data = request.body
 #         stream = io.BytesIO(json_data)
 #         pythondata = JSONParser().parse(stream)
-#         hr_HRID = pythondata.get('HRHRID')
+#         hr_HRID = pythondata.get('HRID')
 #         # site = Site.objects.filter(SiteHRID=site_HRID)
 #         # serializer = SiteSerializer(site,data = pythondata, partial = True) #if partial =False you write then we have give full information fully update
 #         # if serializer.is_valHRID():
@@ -231,7 +231,7 @@ class HRPostView(APIView):
 #                         serializer.save()
 #                 response_data = {'msg': 'Data updated'}
 #             else:
-#                 response_data = {'error': 'No sites found with the given HRHRID'}
+#                 response_data = {'error': 'No sites found with the given HRID'}
 #         except :
 #             response_data = {'error': 'HR does not exist'}
         
@@ -240,9 +240,9 @@ class HRPostView(APIView):
 # from rest_framework.parsers import JSONParser, MultiPartParser
 
 # @csrf_exempt
-# def hr_update(request, HRHRID):
+# def hr_update(request, HRID):
 #     try:
-#         hr_obj = HR.objects.get(HRHRID=HRHRID)
+#         hr_obj = HR.objects.get(HRID=HRID)
 #     except HR.DoesNotExist:
 #         return HttpResponse(status=404)
 
@@ -260,14 +260,14 @@ class HRPostView(APIView):
 #         json_data = request.body
 #         stream = io.BytesIO(json_data)
 #         pythondata = JSONParser().parse(stream)
-#         HRHRID = pythondata.get('HRHRID')
+#         HRID = pythondata.get('HRID')
 #         # site = Site.objects.get(SiteHRID=SiteHRID)
 #         # site.delete()
 #         # res={'msg':'Data Deleted'}
 #         try:
-#             hr = HR.objects.get(HRHRID=HRHRID)
+#             hr = HR.objects.get(HRID=HRID)
 #             hr.delete()
-#             res = {'msg':  f'HR is deleted with the HRHRID : {HRHRID}'}
+#             res = {'msg':  f'HR is deleted with the HRID : {HRID}'}
 #         except :
 #             res = {'error': 'HR not found'}
 #         # json_data = JSONRenderer().render(res)
@@ -279,10 +279,10 @@ class HRPutView(APIView):
     def put(self, request):
         json_data = request.body
         pythondata = JSONParser().parse(json_data)
-        hr_HRID = pythondata.get('HRHRID')
+        hr_HRID = pythondata.get('HRID')
 
         try:
-            sites = HR.objects.filter(HRHRID=hr_HRID)
+            sites = HR.objects.filter(HRID=hr_HRID)
             if sites.exists():
                 # Update the attributes of each HR in the queryset
                 for site in sites:
@@ -291,7 +291,7 @@ class HRPutView(APIView):
                         serializer.save()
                 response_data = {'msg': 'Data updated'}
             else:
-                response_data = {'error': 'No HR found with the given HRHRID'}
+                response_data = {'error': 'No HR found with the given HRID'}
         except HR.DoesNotExist:
             response_data = {'error': 'HR does not exist'}
         
@@ -301,14 +301,14 @@ from rest_framework.parsers import JSONParser, MultiPartParser
 
 #@csrf_exempt
 class HRUpdateView(APIView):
-    def get_object(self, HRHRID):
+    def get_object(self, HRID):
         try:
-            return HR.objects.get(HRHRID=HRHRID)
+            return HR.objects.get(HRID=HRID)
         except HR.DoesNotExist:
             return None
 
-    def post(self, request, HRHRID):
-        hr_obj = self.get_object(HRHRID)
+    def post(self, request, HRID):
+        hr_obj = self.get_object(HRID)
         if hr_obj is None:
             return HttpResponse(status=404)
 
@@ -325,12 +325,12 @@ class HRDeleteView(APIView):
     def delete(self, request):
         json_data = request.body
         pythondata = JSONParser().parse(json_data)
-        HRHRID = pythondata.get('HRHRID')
+        HRID = pythondata.get('HRID')
         
         try:
-            hr = HR.objects.get(HRHRID=HRHRID)
+            hr = HR.objects.get(HRID=HRID)
             hr.delete()
-            response_data = {'msg': f'HR is deleted with the HRHRID: {HRHRID}'}
+            response_data = {'msg': f'HR is deleted with the HRID: {HRID}'}
         except HR.DoesNotExist:
             response_data = {'error': 'HR not found'}
 
